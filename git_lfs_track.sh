@@ -24,10 +24,15 @@
          done
       ' - "{}" +
       # 确保强制跟踪 .gitattributes 文件
-      test ! -f .gitattributes || git add --force .gitattributes
+      test ! -f .gitattributes || {
+         git add --verbose --force .gitattributes
+         # 尝试创建初始提交
+         _="$(git log -1 2>&1)" || git commit --verbose --all --no-edit --no-allow-empty --allow-empty-message || true
+      }
       git-lfs track
       git-lfs status
       git-lfs ls-files --long --size
+      # 如果存在提交记录
       _="$(! git log -1 2>&1)" || {
          # 拉取远程所有 LFS 文件
          : git-lfs pull origin
