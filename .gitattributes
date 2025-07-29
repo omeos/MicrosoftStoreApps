@@ -1,0 +1,12 @@
+data/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe-v2025.617.2222.0.zip filter=lfs diff=lfs merge=lfs -text
+data/4651ED44255E.47979655102CE_k6txddmbb6c52-v3.0.1620.0~软妹币玩家.WattToolkit.zip filter=lfs diff=lfs merge=lfs -text
+data/CanonicalGroupLimited.Ubuntu_79rhkp1fndgsc-v2404.1.68.0.zip filter=lfs diff=lfs merge=lfs -text
+data/Microsoft.GamingApp_8wekyb3d8bbwe-v2507.1001.9.0.zip filter=lfs diff=lfs merge=lfs -text
+data/Microsoft.MicrosoftOfficeHub_8wekyb3d8bbwe-v19.2507.46151.0.zip filter=lfs diff=lfs merge=lfs -text
+data/Microsoft.MicrosoftPCManager_8wekyb3d8bbwe-v3.17.4.0.zip filter=lfs diff=lfs merge=lfs -text
+data/Microsoft.PowerShell_8wekyb3d8bbwe-v2025.618.2224.0.zip filter=lfs diff=lfs merge=lfs -text
+data/Microsoft.WindowsStore_8wekyb3d8bbwe-v22506.1401.7.0.zip filter=lfs diff=lfs merge=lfs -text
+data/Microsoft.WindowsTerminal_8wekyb3d8bbwe-v3001.22.11141.0.zip filter=lfs diff=lfs merge=lfs -text
+data/Microsoft.XboxGamingOverlay_8wekyb3d8bbwe-v7.325.7090.0.zip filter=lfs diff=lfs merge=lfs -text
+data/MicrosoftCorporationII.WindowsSubsystemForLinux_8wekyb3d8bbwe-v2.5.9.0.zip filter=lfs diff=lfs merge=lfs -text
+data/TheDebianProject.DebianGNULinux_76v4gfsz19hv4-v1.20.0.0.zip filter=lfs diff=lfs merge=lfs -text
