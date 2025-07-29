@@ -11,15 +11,16 @@
       # 强制配置仓库钩子
       _="$(git-lfs install --force --local)"
       # 清理旧的跟踪规则
-      test ! -f .gitattributes || sed -i -e '/=lfs[[:space:]]/d' -- .gitattributes
+      test ! -f .gitattributes || sed -i -e '/=lfs[[:space:]]/d' .gitattributes
       # 查找指定文件大小 > 100M (104857600B)
       find . -mindepth 1 ! -type d -size +100M -exec sh -c '
+         : set -x
          for i in "${@}"; do
             i="${i#./}" && {
                # 确保在仓库工作树
                _="$(cd -L -- "$(dirname -- "${i}")" && test "$(git rev-parse --is-inside-work-tree)" != false)" || continue
                # 重新更新跟踪规则
-               git-lfs track --filename "${i}"
+               git-lfs track --filename -- "${i}"
             }
          done
       ' - "{}" +
@@ -30,10 +31,14 @@
          _="$(git log -1 2>&1)" || git commit --verbose --all --no-edit --no-allow-empty --allow-empty-message || true
       }
       git-lfs track
-      git-lfs status
-      git-lfs ls-files --long --size
+      # 并发执行耗时操作
+      git-lfs status & pid="${!}"
+      git-lfs ls-files --all --long --size & pid="${pid:+"${pid} "}${!}"
+      # 等待后台任务完成
+      eval wait "${pid}"
       # 如果存在提交记录
       _="$(! git log -1 2>&1)" || {
+         git add --verbose --all
          # 拉取远程所有 LFS 文件
          : git-lfs pull origin
          # 推送本地所有 LFS 文件
@@ -41,4 +46,4 @@
       }
    }
 )
-# (set -x; sh -- git_lfs_track.sh && git add --verbose --all && git commit --verbose --all --no-edit --no-allow-empty --allow-empty-message && (_="$(! git log -1 2>&1)" || : git pull --verbose --rebase origin) && git push --verbose --all --follow-tags $(: --force-with-lease) origin)
+# (set -x; sh git_lfs_track.sh && git add --verbose --all && git commit --verbose --all --no-edit --no-allow-empty --allow-empty-message && (_="$(! git log -1 2>&1)" || : git pull --verbose --rebase origin) && git push --verbose --all --follow-tags $(: --force-with-lease) origin)
