@@ -36,13 +36,32 @@
       git-lfs ls-files --all --long --size & pid="${pid:+"${pid} "}${!}"
       # 等待后台任务完成
       eval wait "${pid}"
-      # 如果存在提交记录
-      _="$(! git log -1 2>&1)" || {
-         git add --verbose --all
-         # 拉取远程所有 LFS 文件
-         : git-lfs pull origin
-         # 推送本地所有 LFS 文件
-         git-lfs push --all origin
+      (
+         set -e
+         src="$(git rev-parse --git-dir)/hooks"
+         mkdir -p -- "${src}"
+         chmod -R -- 0755 "${src}"
+         # 是否存在无权文件
+         if _="$(find "${src}" -mindepth 1 ! -type d -exec test ! -x "{}" ";" -print | grep -e .)"; then
+            dst="${HOME}/.git/hooks/$(basename -- "$(pwd -L)")"
+            mkdir -p -- "${dst}"
+            find "${dst}" -mindepth 1 ! -type d -delete
+            cp -f -a -T -- "${src}" "${dst}"
+            chmod -R -- 0755 "${dst}"
+            # 配置仓库钩子路径
+            git config set --local --all --path -- core.hooksPath "${dst}"
+         fi
+      ) || {
+         # 移除仓库钩子路径
+         git config unset --local --all core.hooksPath
+         # 如果存在提交记录
+         _="$(! git log -1 2>&1)" || {
+            git add --verbose --all
+            # 拉取远程所有 LFS 文件
+            : git-lfs pull origin
+            # 推送本地所有 LFS 文件
+            git-lfs push --all origin
+         }
       }
    }
 )
