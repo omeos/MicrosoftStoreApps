@@ -66,5 +66,14 @@
          }
       }
    }
+   exit "${?}"
+   if false; then
+      for i in 104857599:-100M 104857600:100M 104857601:+100M; do
+         _="$(dd if=/dev/zero of="${i#*:}" bs="${i%:*}" count=0 seek=1 status=none)"
+      done
+      (
+         set -x
+         sh git_lfs_auto_handler.sh && git add --verbose --all && git commit --verbose --all --no-edit --no-allow-empty --allow-empty-message && (_="$(! git log -1 2>&1)" || : git pull --verbose --rebase origin) && git push --verbose --all --follow-tags $(: --force-with-lease) origin
+      )
+   fi
 )
-# (set -x; sh git_lfs_track.sh && git add --verbose --all && git commit --verbose --all --no-edit --no-allow-empty --allow-empty-message && (_="$(! git log -1 2>&1)" || : git pull --verbose --rebase origin) && git push --verbose --all --follow-tags $(: --force-with-lease) origin)
