@@ -31,11 +31,13 @@
          _="$(git log -1 2>&1)" || git commit --verbose --all --no-edit --no-allow-empty --allow-empty-message || true
       }
       git-lfs track
-      # 并发执行耗时操作
-      git-lfs status & pid="${!}"
-      git-lfs ls-files --all --long --size & pid="${pid:+"${pid} "}${!}"
-      # 等待后台任务完成
-      eval wait "${pid}"
+      if false; then
+         # 并发执行耗时操作
+         git-lfs status & pid="${!}"
+         git-lfs ls-files --all --long --size & pid="${pid:+"${pid} "}${!}"
+         # 等待后台任务完成
+         eval wait "${pid}"
+      fi
       (
          set -e
          src="$(git rev-parse --git-dir)/hooks"
