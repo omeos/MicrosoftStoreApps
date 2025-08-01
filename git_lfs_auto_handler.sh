@@ -124,7 +124,7 @@ END
       # 清理旧的跟踪规则
       test ! -f .gitattributes || {
          ECHO "[大文件存储] 清理规则 .gitattributes" 1>&2
-         sed -i -e '/=lfs[[:space:]]/d' .gitattributes || true
+         sed -i -e '/[[:space:]][^[:space:]][^[:space:]]*=lfs[[:space:]]/d' .gitattributes || true
       }
       # 查找指定文件大小 > 100M (104857600c) <= 2G (2147483648c)
       find . -mindepth 1 ! -type d ! "(" "(" -type d -a -path "*/.git" ")" -o -path "*/.git/*" ")" "(" -size "${LFS_MIN_SIZE}" -a ! -size "${LFS_MAX_SIZE}" ")" -exec sh -c '
