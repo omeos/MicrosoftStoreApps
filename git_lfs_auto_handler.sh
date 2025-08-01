@@ -24,7 +24,7 @@
       excludesFile="${HOME}/.git/info/$(basename -- "$(pwd -L)")/exclude" || exit "${?}"
       mkdir -p -- "$(dirname -- "${excludesFile}")" || exit "${?}"
       # 查找指定文件大小 > 2G (2147483648c)
-      find . -mindepth 1 ! -type d -size "${LFS_MAX_SIZE}" -exec sh -c '
+      find . -mindepth 1 ! -type d ! "(" "(" -type d -a -path "*/.git" ")" -o -path "*/.git/*" ")" -size "${LFS_MAX_SIZE}" -exec sh -c '
          SPLIT_FILE_SIZE="${0}"
          eval "ECHO$(printf %s KCkgeyBjYXQgPDwtRU5ECiR7Kn0KRU5ECn0= | base64 -d)" || exit "${?}"
          for i in "${@}"; do
@@ -98,7 +98,7 @@ END
                   # 移除跟踪缓存
                   git rm --force --cached -r -- "${i}" || continue
                fi
-               ECHO "[大文件分割] 设置忽略文件 ${i}" 1>&2
+               ECHO "[大文件分割] 设置忽略文件 ${i} => .gitignore:.git/info/exclude" 1>&2
                # 忽略处理文件
                ECHO "${i}"
             }
@@ -127,7 +127,7 @@ END
          sed -i -e '/=lfs[[:space:]]/d' .gitattributes || true
       }
       # 查找指定文件大小 > 100M (104857600c) <= 2G (2147483648c)
-      find . -mindepth 1 ! -type d "(" -size "${LFS_MIN_SIZE}" -a ! -size "${LFS_MAX_SIZE}" ")" -exec sh -c '
+      find . -mindepth 1 ! -type d ! "(" "(" -type d -a -path "*/.git" ")" -o -path "*/.git/*" ")" "(" -size "${LFS_MIN_SIZE}" -a ! -size "${LFS_MAX_SIZE}" ")" -exec sh -c '
          eval "ECHO$(printf %s KCkgeyBjYXQgPDwtRU5ECiR7Kn0KRU5ECn0= | base64 -d)" || exit "${?}"
          for i in "${@}"; do
             i="${i#./}" && {
