@@ -141,6 +141,10 @@ https://get.microsoft.com/installer/download/9N8G5RFZ9XK3
 ## Outlook for Windows Installer
 https://get.microsoft.com/installer/download/9NRX63209R7B
 
+## Microsoft OneDrive Installer
+
+https://get.microsoft.com/installer/download/XP897HS6D4QVCV
+
 ## PowerShell Installer
 https://get.microsoft.com/installer/download/9MZ1SNWT0N5D
 
