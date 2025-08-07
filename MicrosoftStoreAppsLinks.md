@@ -205,6 +205,9 @@ https://get.microsoft.com/installer/download/9NFTCH6J7FHV
 ## Feedback Hub Installer
 https://get.microsoft.com/installer/download/9NBLGGH4R32N
 
+## Sysinternals Suite Installer
+https://get.microsoft.com/installer/download/9P7KNL5RWT25
+
 # Detail Links
 
 ## Windows Subsystem for Linux
